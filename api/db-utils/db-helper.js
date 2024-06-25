@@ -14,7 +14,7 @@ export function createDb() {
     }
 }
 
-// createDb()
+createDb()
 
 db.prepare(dbQuerries.createThTable).run();
 db.prepare(dbQuerries.createAuthorTable).run();
