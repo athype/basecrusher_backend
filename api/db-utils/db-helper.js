@@ -7,11 +7,7 @@ let db;
 
 export function createDb() {
     try {
-        const dir = path.join(process.cwd(), 'database');
-        if (!fs.existsSync(dir)){
-            fs.mkdirSync(dir);
-        }
-        db = new Database(path.join(dir, 'database.sqlite'));
+        db = new Database('database/database.sqlite');
     } catch (error) {
         console.error('Error while initializing db', error);
         throw error;
