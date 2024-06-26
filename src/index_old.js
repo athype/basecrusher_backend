@@ -13,7 +13,7 @@ import testRouter from "./routers/test-router.js";
 
 
 const app = express();
-const port = 8000;
+const port = 80;
 
 app.use(express.json());
 
