@@ -1,48 +1,15 @@
-import express, {json} from "express";
+import http from "http";
+import { config } from "dotenv";
+import app from "./app.js";
+import * as logger from "./utils/logger.js";
 
-import cors from "cors";
+if (process.env.NODE_ENV !== "production") {
+    config();
+}
+const server = http.createServer(app);
 
-import statusCodes from "http-status-codes";
+const PORT = process.env.PORT || 4000;
 
-import thRouter from "./routers/th-router.js";
-import stratRouter from "./routers/strategy-router.js";
-import authorRouter from "./routers/author-router.js";
-
-import {createDb} from "./db-utils/db-helper.js";
-import testRouter from "./routers/test-router.js";
-
-
-const app = express();
-const port = 80;
-
-app.use(express.json());
-
-createDb();
-
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-}));
-
-app.use('/api/townhalls', thRouter);
-app.use('/api/strategies', stratRouter);
-app.use('/api/authors', authorRouter);
-app.use('/api/vercel', testRouter)
-
-app.get('/', (req, res) => {
-    res.send('Hello World')
-})
-
-app.use((err, req, res, next) => {
-    res
-        .status(err.status || 500)
-        .json({
-            message: err.message || 'Something went wrong!'
-        });
+server.listen(PORT, () => {
+    logger.info(`Server running on port ${PORT}`);
 });
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
-
-export default app;
